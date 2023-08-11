@@ -9,8 +9,11 @@ const router = express.Router();
 router.get('/:filename', (req, res) => {
     try {
         const { filename } = req.params;
-        const qrImagePath = generateFilePath('qr_images', filename);
+        if (!filename || !filename.endsWith('.png')) {
+            return handleError(res, 400, 'Invalid filename');
+        }
 
+        const qrImagePath = generateFilePath('qr_images', filename);
         if (fs.existsSync(qrImagePath)) {
             logger(`Fetched QR image: ${filename}`);
             res.sendFile(qrImagePath);
