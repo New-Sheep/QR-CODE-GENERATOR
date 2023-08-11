@@ -21,3 +21,9 @@ app.post('/generateQR', async (req, res) => {
         return res.status(500).json({ error: 'An error occurred' });
     }
 });
+
+const qrImagePath = path.join(__dirname, 'qr_images', `${text}.png`);
+await qrcode.toFile(qrImagePath, text);
+return res.json({ imagePath: qrImagePath });
+
+
