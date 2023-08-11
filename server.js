@@ -9,6 +9,15 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.post('/generateQR', async (req, res) => {
-    // Implementation for generating QR codes
-});
+    try {
+        const { text } = req.body;
 
+        if (!text || text.length !== 6) {
+            return res.status(400).json({ error: 'Input must be a 6 character string' });
+        }
+
+        // Implementation for generating QR codes
+    } catch (error) {
+        return res.status(500).json({ error: 'An error occurred' });
+    }
+});
