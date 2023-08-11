@@ -26,4 +26,15 @@ const qrImagePath = path.join(__dirname, 'qr_images', `${text}.png`);
 await qrcode.toFile(qrImagePath, text);
 return res.json({ imagePath: qrImagePath });
 
+app.get('/getQR/:filename', (req, res) => {
+    const { filename } = req.params;
+    const qrImagePath = path.join(__dirname, 'qr_images', filename);
+
+    if (fs.existsSync(qrImagePath)) {
+        res.sendFile(qrImagePath);
+    } else {
+        res.status(404).json({ error: 'QR image not found' });
+    }
+});
+
 
